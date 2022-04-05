@@ -4,9 +4,11 @@ class BooksController < ApplicationController
   end
 
   def create
-    book = Book.new(book_params)
-    book.save
-    redirect_to '/books'
+    @book = Book.new(book_params)
+    if @book.save
+     redirect_to book_path(@book.id)
+   else
+     render :new
   end
 
   def index
@@ -14,7 +16,7 @@ class BooksController < ApplicationController
   end
 
   def show
-    @books = Book.find(params[:id])
+    @books = Book.find(params[:])
   end
 
   def edit
@@ -31,4 +33,3 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :body)
   end
-end
